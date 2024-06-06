@@ -6,98 +6,129 @@ name: jmc-terraform CI
 #   workflow_call:
    
 jobs:
-  terraform-ci:
-    name: TerraformCI
+  SonarAnalysis:
+    name: sonar analysis
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      security-events: write
-      id-token: write
-      packages: write
-      actions: read
+        contents: write
+        security-events: write
+        packages: write
+        actions: read
+        pull-requests: read
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
+      - name: Analyze with SonarCloud
+        uses: SonarSource/sonarcloud-github-action@v2.2.0
+        env:
+            SONAR_TOKEN: "bfc259e3803cbb1be5f2038dc190ad6045012c64" #${{ secrets.SONAR_TOKEN }}   # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
         with:
-            workload_identity_provider: projects/225327824991/locations/global/workloadIdentityPools/automation-wif-pool/providers/github
-            service_account: sa-lzguardrails@jmc-central-pj.iam.gserviceaccount.com
+        # Additional arguments for the SonarScanner CLI
+          args:
+            -Dsonar.projectKey="jmcorg_tf-sample-pipeline"
+            -Dsonar.organization="jmcorg"
+            # Comma-separated paths to directories containing main source files.
+            #-Dsonar.sources= # optional, default is project base directory
+            # Comma-separated paths to directories containing test source files.
+            #-Dsonar.tests= # optional. For more info about Code Coverage, please refer to https://docs.sonarcloud.io/enriching/test-coverage/overview/
+            # Adds more detail to both client and server-side analysis logs, activating DEBUG mode for the scanner, and adding client-side environment variables and system properties to the server-side log of analysis report processing.
+            #-Dsonar.verbose= # optional, default is false
+            # When you need the analysis to take place in a directory other than the one from which it was launched, default is .
+          projectBaseDir: .
+#   terraform-ci:
+#     name: TerraformCI
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
+#       security-events: write
+#       id-token: write
+#       packages: write
+#       actions: read
+#       pull-requests: read
+
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+
+
+
+    #   - id: 'auth'
+    #     name: 'Authenticate to Google Cloud'
+    #     uses: 'google-github-actions/auth@v1'
+    #     with:
+    #         workload_identity_provider: projects/225327824991/locations/global/workloadIdentityPools/automation-wif-pool/providers/github
+    #         service_account: sa-lzguardrails@jmc-central-pj.iam.gserviceaccount.com
             
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3.1.1
-        with:
-          terraform_version: 1.8.4
+    #   - name: Setup Terraform
+    #     uses: hashicorp/setup-terraform@v3.1.1
+    #     with:
+    #       terraform_version: 1.8.4
 
-      - name: Terraform Format and Validate
-        id: fmtval
-        continue-on-error: true
-        run: |
-             terraform init - upgrade -backend=false
-             terraform fmt -check && terraform validate
+    #   - name: Terraform Format and Validate
+    #     id: fmtval
+    #     continue-on-error: true
+    #     run: |
+    #          terraform init - upgrade -backend=false
+    #          terraform fmt -check && terraform validate
              
 
 
-      - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v4
-        with:
-          tflint_version: v0.51.1
-      - name: Run TFLint
-        run: |
-              tflint --version
-              tflint --init
-              tflint -f compact
+    #   - name: Setup TFLint
+    #     uses: terraform-linters/setup-tflint@v4
+    #     with:
+    #       tflint_version: v0.51.1
+    #   - name: Run TFLint
+    #     run: |
+    #           tflint --version
+    #           tflint --init
+    #           tflint -f compact
 
-      - name: Run tfsec
-        uses: aquasecurity/tfsec-sarif-action@v0.1.4
-        with:
-          sarif_file: tfsec.sarif
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          # Path to SARIF file relative to the root of the repository
-          sarif_file: tfsec.sarif
+    #   - name: Run tfsec
+    #     uses: aquasecurity/tfsec-sarif-action@v0.1.4
+    #     with:
+    #       sarif_file: tfsec.sarif
+    #   - name: Upload SARIF file
+    #     uses: github/codeql-action/upload-sarif@v3
+    #     with:
+    #       # Path to SARIF file relative to the root of the repository
+    #       sarif_file: tfsec.sarif
 
-      - name: Run Checkov action
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: .
-          soft_fail: true
-          download_external_modules: true
-          github_pat: ${{ secrets.GH_PAT }}
-          # This will add both a CLI output to the console and create a results.sarif file
-          output_format: cli,sarif
-          output_file_path: console,checkov-results.sarif
-        env:
-          GITHUB_OVERRIDE_URL: true  # optional: this can be used to instruct the action to override the global GIT config to inject the PAT to the URL
+    #   - name: Run Checkov action
+    #     id: checkov
+    #     uses: bridgecrewio/checkov-action@master
+    #     with:
+    #       directory: .
+    #       soft_fail: true
+    #       download_external_modules: true
+    #       github_pat: ${{ secrets.GH_PAT }}
+    #       # This will add both a CLI output to the console and create a results.sarif file
+    #       output_format: cli,sarif
+    #       output_file_path: console,checkov-results.sarif
+    #     env:
+    #       GITHUB_OVERRIDE_URL: true  # optional: this can be used to instruct the action to override the global GIT config to inject the PAT to the URL
 
-      # - name: Upload SARIF file
-      #   uses: github/codeql-action/upload-sarif@v3
-      #   with:
-      #     # Path to SARIF file relative to the root of the repository
-      #     sarif_file: checkov-results.sarif
+    #   # - name: Upload SARIF file
+    #   #   uses: github/codeql-action/upload-sarif@v3
+    #   #   with:
+    #   #     # Path to SARIF file relative to the root of the repository
+    #   #     sarif_file: checkov-results.sarif
 
 
-      - name: Run Terrascan
-        id: terrascan
-        uses: tenable/terrascan-action@main
-        with:
-          iac_type: 'terraform'
-          iac_version: 'v14'
-          policy_type: 'gcp'
-          only_warn: true
-          #scm_token: ${{ secrets.ACCESS_TOKEN }}
-          #verbose: true
-          sarif_upload: false
-          #non_recursive:
-          iac_dir: .
-          #policy_path:
-          #skip_rules:
-          #config_path:
-          #find_vulnerabilities:
-          #webhook_url:
-          #webhook_token:
+    #   - name: Run Terrascan
+    #     id: terrascan
+    #     uses: tenable/terrascan-action@main
+    #     with:
+    #       iac_type: 'terraform'
+    #       iac_version: 'v14'
+    #       policy_type: 'gcp'
+    #       only_warn: true
+    #       #scm_token: ${{ secrets.ACCESS_TOKEN }}
+    #       #verbose: true
+    #       sarif_upload: false
+    #       #non_recursive:
+    #       iac_dir: .
+    #       #policy_path:
+    #       #skip_rules:
+    #       #config_path:
+    #       #find_vulnerabilities:
+    #       #webhook_url:
+    #       #webhook_token:
