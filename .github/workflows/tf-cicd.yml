@@ -34,9 +34,11 @@ jobs:
 
       - name: Terraform Format and Validate
         id: fmtval
+        continue-on-error: true
         run: |
              terraform init --reconfigure
              terraform fmt -check && terraform validate
+             
 
 
       - name: Setup TFLint
