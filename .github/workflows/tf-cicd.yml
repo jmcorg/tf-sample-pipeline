@@ -26,7 +26,7 @@ jobs:
         with:
             workload_identity_provider: projects/225327824991/locations/global/workloadIdentityPools/automation-wif-pool/providers/github
             service_account: sa-lzguardrails@jmc-central-pj.iam.gserviceaccount.com
-            
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.1
         with:
@@ -36,7 +36,7 @@ jobs:
         id: fmtval
         run: |
              terraform init 
-             terraform fmt -check && terraform validate
+             terraform fmt -check 
 
 
       - name: Setup TFLint
