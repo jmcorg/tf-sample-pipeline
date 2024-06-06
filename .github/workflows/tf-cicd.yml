@@ -20,6 +20,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+            workload_identity_provider: projects/225327824991/locations/global/workloadIdentityPools/automation-wif-pool/providers/github
+            service_account: sa-lzguardrails@jmc-central-pj.iam.gserviceaccount.com
+            
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3.1.1
         with:
