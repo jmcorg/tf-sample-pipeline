@@ -20,7 +20,8 @@ jobs:
       - name: Analyze with SonarCloud
         uses: SonarSource/sonarcloud-github-action@v2.2.0
         env:
-            SONAR_TOKEN: "bfc259e3803cbb1be5f2038dc190ad6045012c64" #${{ secrets.SONAR_TOKEN }}   # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                #"bfc259e3803cbb1be5f2038dc190ad6045012c64" #   # Generate a token on Sonarcloud.io, add it to the secrets of this repo with the name SONAR_TOKEN (Settings > Secrets > Actions > add new repository secret)
         with:
         # Additional arguments for the SonarScanner CLI
           args:
