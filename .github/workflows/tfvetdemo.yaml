@@ -1,10 +1,10 @@
 name: local-terraform CI
 'on':
-  push:
-    branches: ["release","main" ] 
-  pull_request:
-    branches: [ "release","main" ] 
-  workflow_dispatch:
+  # push:
+  #   branches: ["release","main" ] 
+  # pull_request:
+  #   branches: [ "release","main" ] 
+  # workflow_dispatch:
 jobs:
   # tf-ci:
   #   name: terraform analysis
