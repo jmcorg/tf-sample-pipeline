@@ -55,7 +55,7 @@ jobs:
         with:
             stl_actions_version: 0.14.2
             stl_actions_subcommand: 'apply'
-            stl_actions_working_dir: './ploicies'
+            stl_actions_working_dir: './policies'
             stl_actions_comment: true
     #   - name: 'Upload tfplan'
     #     uses: actions/upload-artifact@v4
