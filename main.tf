@@ -5,4 +5,12 @@ resource "google_storage_bucket" "auto-expire" {
   force_destroy = true
 
   public_access_prevention = "enforced"
+  logging {
+    log_bucket = "jmcorg-tfstate_lz"
+    log_object_prefix = "sentinel/logs/tf-sample-pipeline"
+  }
 }
+
+
+    bucket  = "jmcorg-tfstate_lz"
+    prefix  = "terraform/state/tf-sample-pipeline"
