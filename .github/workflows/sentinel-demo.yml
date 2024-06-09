@@ -39,6 +39,7 @@ jobs:
         with:
             workload_identity_provider: projects/203546026970/locations/global/workloadIdentityPools/github-jomcyg/providers/github
             service_account: sa-jomcyggithub-gcloudauth@jmc-devsecops.iam.gserviceaccount.com
+            
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2' #@v2.1.0
         with:
