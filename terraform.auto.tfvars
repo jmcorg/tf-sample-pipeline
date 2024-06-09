@@ -1,2 +1,2 @@
-project_id    = "jmc-devsecops"
+project_id    = "cts-dev-prj"
 location = "ASIA"
