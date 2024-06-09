@@ -10,7 +10,3 @@ resource "google_storage_bucket" "auto-expire" {
     log_object_prefix = "sentinel/logs/tf-sample-pipeline"
   }
 }
-
-
-    bucket  = "jmcorg-tfstate_lz"
-    prefix  = "terraform/state/tf-sample-pipeline"
