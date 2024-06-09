@@ -25,17 +25,18 @@ provider "google-beta" {
 
 provider "google" {
   # Configuration options
+  project = "jmc-devsecops"
 
 }
 // Configure the provider
 provider "hcp" {}
 
-terraform {
-  cloud {
-    hostname = "app.terraform.io"
-    organization = "jmcorg"
-    workspaces {
-      name = ["tf-sample-pipeline"]
-    }
-  }
-}
+# terraform {
+#   cloud {
+#     hostname = "app.terraform.io"
+#     organization = "jmcorg"
+#     workspaces {
+#       name = ["tf-sample-pipeline"]
+#     }
+#   }
+# }
