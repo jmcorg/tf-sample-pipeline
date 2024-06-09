@@ -16,5 +16,5 @@
 
 output "bucke_name" {
   description = "Name of bucket "
-  value       = module.bucket.name
+  value       = google_storage_bucket.auto-expire.name
 }
