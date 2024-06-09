@@ -71,6 +71,8 @@ jobs:
         actions: read
         pull-requests: read
     steps:
+      - name: 'Checkout'
+        uses: actions/checkout@master
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
@@ -86,6 +88,7 @@ jobs:
         id: tf-apply
         run: |
             ls
+            terraform init 
             terraform apply --auto-approve ./test.tfplan
 
 
