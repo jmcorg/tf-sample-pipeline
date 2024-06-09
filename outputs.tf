@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-output "bucke_name" {
+output "bucket_name" {
   description = "Name of bucket "
   value       = google_storage_bucket.auto-expire.name
 }
