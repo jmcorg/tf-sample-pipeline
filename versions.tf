@@ -23,3 +23,14 @@ provider "google" {
   # Configuration options
 
 }
+
+
+terraform {
+  cloud {
+    hostname = "app.terraform.io"
+    organization = "jmcorg"
+    workspaces {
+      name = ["tf-sample-pipeline"]
+    }
+  }
+}
