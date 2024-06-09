@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/google-beta"
       version = "~> 5.30" # Align with google provider version (approximately)
     }
+    hcp = {
+      source  = "hashicorp/hcp"
+      version = "~> 0.91.0"
+    }
   }
 }
 
@@ -23,7 +27,8 @@ provider "google" {
   # Configuration options
 
 }
-
+// Configure the provider
+provider "hcp" {}
 
 terraform {
   cloud {
