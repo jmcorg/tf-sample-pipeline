@@ -64,7 +64,13 @@ jobs:
     needs: tf-ci
     runs-on: ubuntu-latest
     steps:
-      
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        # Update the values with the output from the setup step
+        with:
+            workload_identity_provider: projects/203546026970/locations/global/workloadIdentityPools/github-jomcyg/providers/github
+            service_account: sa-jomcyggithub-gcloudauth@jmc-devsecops.iam.gserviceaccount.com   
       - name: Download tfplan
         uses: actions/download-artifact@v4
         with:
