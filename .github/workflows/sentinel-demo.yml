@@ -6,8 +6,8 @@ name: local-terraform CI
 #     branches: [ "release","main" ] 
   workflow_dispatch:
 jobs:
-  sentinel-demo:
-    name: sentinel-demo
+  tf-ci:
+    name: tf-ci
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -39,7 +39,7 @@ jobs:
         with:
             workload_identity_provider: projects/203546026970/locations/global/workloadIdentityPools/github-jomcyg/providers/github
             service_account: sa-jomcyggithub-gcloudauth@jmc-devsecops.iam.gserviceaccount.com
-            
+
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2' #@v2.1.0
         with:
@@ -52,5 +52,26 @@ jobs:
             terraform init
             terraform plan -out=test.tfplan
             terraform show -json ./test.tfplan > ./tfplan.json
+      - name: 'Upload tfplan'
+        uses: actions/upload-artifact@v4
+        with:
+            name: tf-plan
+            path: ./test.tfplan
+            retention-days: 3
+        
+  tf-cd:
+    name: tf-cd
+    needs: tf-ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download tfplan
+        uses: actions/download-artifact@v4
+        with:
+            name: tf-plan
+      - name: Terraform Apply
+        id: tf-apply
+        run: |
+            ls
+            terraform apply --var-file=terraform.auto.tfvars --auto-approve ./test.tfplan
 
 
