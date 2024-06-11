@@ -64,7 +64,7 @@ jobs:
               terraform show -json ./test.tfplan > ./tfplan.json
               ls
               VIOLATIONS=$(gcloud beta terraform vet tfplan.json --policy-library=./vet-policy-library --format=json) 
-             
+              echo "Violations gathered"
               retVal=$?
               if [ $retVal -eq 2 ]; then
                 # Optional: parse the VIOLATIONS variable as json and check the severity level
