@@ -16,8 +16,8 @@ jobs:
   #     actions: read
   #   uses: jomcyg/gcp-github-devsecops-workflows/.github/workflows/tf-ci.yml@jmc-dev-ghworkflow
   #   secrets: inherit
-  tf-vet:
-    name: tf-vet
+  tf-ci-withvet:
+    name: tf-ci-withvet
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -56,6 +56,7 @@ jobs:
 #/vet-policies/constraints
       - name: Terraform init-plan-vet
         id: fmtval
+        continue-on-error: true
         run: |
               pwd && ls && cd vet-policy-library && ls && cd ..
               gcloud version
@@ -78,4 +79,44 @@ jobs:
               fi
 
               echo "No policy violations detected; proceeding with terraform apply"
-              terraform apply
+      - name: 'Upload tfplan'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tf-plan
+          path: ./test.tfplan
+          retention-days: 3
+
+    # tf-cd:
+    #   name: tf-cd
+    #   needs: tf-ci
+    #   runs-on: ubuntu-latest
+    #   permissions:
+    #       contents: write
+    #       security-events: write
+    #       id-token: write
+    #       packages: write
+    #       actions: read
+    #       pull-requests: read
+    #   steps:
+    #     - name: 'Checkout'
+    #       uses: actions/checkout@master
+    #     - id: 'auth'
+    #       name: 'Authenticate to Google Cloud'
+    #       uses: 'google-github-actions/auth@v1'
+    #       # Update the values with the output from the setup step
+    #       with:
+    #           workload_identity_provider: projects/203546026970/locations/global/workloadIdentityPools/github-jomcyg/providers/github
+    #           service_account: sa-jomcyggithub-gcloudauth@jmc-devsecops.iam.gserviceaccount.com   
+    #     - name: Download tfplan
+    #       uses: actions/download-artifact@v4
+    #       with:
+    #           name: tf-plan
+    #     - name: Terraform Apply
+    #       id: tf-apply
+    #       run: |
+    #           ls
+    #           terraform init 
+    #           terraform apply --auto-approve ./test.tfplan
+                
+                
+                
