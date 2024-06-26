@@ -11,40 +11,35 @@ resource "google_storage_bucket" "auto-expire" {
   }
 }
 
-resource "google_cloud_run_service" "jmcapp-crun" {
-  name     = "jmcapp-crun-srv"
-  location = var.location
+resource "google_cloud_run_service" "default" {
+  name     = "cloudrun-srv"
+  location = var.region
 
   template {
     spec {
       containers {
         image = "us-docker.pkg.dev/cloudrun/container/hello"
-        startup_probe {
-          initial_delay_seconds = 0
-          timeout_seconds = 1
-          period_seconds = 3
-          failure_threshold = 1
-          tcp_socket {
-            port = 8080
-          }
-        }
-        liveness_probe {
-          http_get {
-            path = "/"
-          }
-        }
+      }
+    }
+
+    metadata {
+      annotations = {
+        "autoscaling.knative.dev/maxScale"      = "1000"
+        "run.googleapis.com/cloudsql-instances" = google_sql_database_instance.instance.connection_name
+        "run.googleapis.com/client-name"        = "terraform"
       }
     }
   }
+  autogenerate_revision_name = true
+}
 
-  traffic {
-    percent         = 100
-    latest_revision = true
+resource "google_sql_database_instance" "instance" {
+  name             = "jmcapp-sql"
+  region           = var.region
+  database_version = "MYSQL_5_7"
+  settings {
+    tier = "db-f1-micro"
   }
 
-  lifecycle {
-    ignore_changes = [
-      metadata.0.annotations,
-    ]
-  }
+  deletion_protection  = "false"
 }
