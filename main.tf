@@ -25,7 +25,7 @@ resource "google_cloud_run_service" "default" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/maxScale"      = "1000"
-        "run.googleapis.com/cloudsql-instances" = google_sql_database_instance.instance.connection_name
+        # "run.googleapis.com/cloudsql-instances" = google_sql_database_instance.instance.connection_name
         "run.googleapis.com/client-name"        = "terraform"
       }
     }
@@ -40,11 +40,7 @@ resource "google_sql_database_instance" "instance" {
   settings {
     tier = "db-f1-micro"
    ip_configuration {
-      psc_config {
-        psc_enabled = true
-        allowed_consumer_projects = ["allowed-consumer-project-name"]
-      }
-      ipv4_enabled = false
+      ipv4_enabled = true
     }
     backup_configuration {
       enabled = true
