@@ -13,6 +13,7 @@ jobs:
       security-events: write
       id-token: write
       packages: write
+      actions: read
     uses: jmcorg/devsecops-reusableworkflows/.github/workflows/rwf-terraform-ci.yml@development
     secrets: inherit
   tf-cd:
@@ -23,6 +24,7 @@ jobs:
       security-events: write
       id-token: write
       packages: write
+      actions: read
  
     uses: jmcorg/devsecops-reusableworkflows/.github/workflows/rwf-terraform-cd.yml@development
     secrets: inherit
