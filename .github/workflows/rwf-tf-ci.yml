@@ -1,0 +1,19 @@
+name: jmcorg-terraform CI
+'on':
+  push:
+    branches: ["release","main" ] 
+  pull_request:
+        branches: [ "release","main" ]    
+  workflow_dispatch: 
+jobs:
+  tf-ci:
+    name: terraform analysis
+    permissions:
+      contents: write
+      security-events: write
+      id-token: write
+      packages: write
+      actions: read
+    uses: jmcorg/devsecops-reusableworkflows/.github/workflows/rwf-terraform-ci.yml@development
+    secrets: inherit
+    
