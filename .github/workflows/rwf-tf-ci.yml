@@ -2,8 +2,8 @@ name: jmcorg-terraform CI
 'on':
   push:
     branches: ["release","main" ] 
-  pull_request:
-        branches: [ "release","main" ]    
+#   pull_request:
+#         branches: [ "release","main" ]    
   workflow_dispatch: 
 jobs:
   tf-ci:
@@ -13,7 +13,6 @@ jobs:
       security-events: write
       id-token: write
       packages: write
-      actions: read
     uses: jmcorg/devsecops-reusableworkflows/.github/workflows/rwf-terraform-ci.yml@development
     secrets: inherit
   tf-cd:
@@ -24,7 +23,7 @@ jobs:
       security-events: write
       id-token: write
       packages: write
-      actions: read
+ 
     uses: jmcorg/devsecops-reusableworkflows/.github/workflows/rwf-terraform-cd.yml@development
     secrets: inherit
     
