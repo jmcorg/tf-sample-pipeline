@@ -1,4 +1,4 @@
-name: jmcorg-terraform CI
+name: jmcorg-terraform CICD
 'on':
   push:
     branches: ["release","main" ] 
@@ -27,5 +27,7 @@ jobs:
       actions: read
  
     uses: jmcorg/devsecops-reusableworkflows/.github/workflows/rwf-terraform-cd.yml@development
+    with:
+        app_env: "dev"
     secrets: inherit
     
