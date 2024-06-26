@@ -36,9 +36,14 @@ resource "google_cloud_run_service" "default" {
 resource "google_sql_database_instance" "instance" {
   name             = "jmcapp-sql"
   region           = var.region
-  database_version = "MYSQL_5_7"
+  database_version = "MYSQL_8_0"
   settings {
     tier = "db-f1-micro"
+    ip_configuration {
+      ipv4_enabled                                  = false
+      private_network                               = google_compute_network.private_network.id
+      enable_private_path_for_google_cloud_services = true
+    }
   }
 
   deletion_protection  = "false"
