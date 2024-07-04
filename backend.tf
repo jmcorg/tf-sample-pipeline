@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket  = "jmcorg-tfstate_lz"
+    bucket  = "jmc-test-storage"
     prefix  = "terraform/state/tf-sample-pipeline"
 
   }
