@@ -1,4 +1,4 @@
-name: local-terraform CI
+name: tfvet CI
 'on':
   push:
     branches: ["release","main" ] 
