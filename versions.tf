@@ -10,6 +10,9 @@ terraform {
       source  = "hashicorp/google-beta"
       version = "~> 5.30" # Align with google provider version (approximately)
     }
+     kubernetes = {
+      source = "hashicorp/kubernetes"
+    }
     hcp = {
       source  = "hashicorp/hcp"
       version = "~> 0.91.0"
