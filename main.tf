@@ -45,16 +45,6 @@ module "gke" {
   stateful_ha                 = true
 }
 
-resource "google_compute_subnetwork" "network-with-private-secondary-ip-ranges" {
-  name          = "subnet-asia-south-1-jmc-gke"
-  ip_cidr_range = "10.11.0.0/16"
-  region        = "asia-south1"
-  network       = "https://www.googleapis.com/compute/v1/projects/jmc-devsecops/global/networks/jm-devsecops-vpc"
-  secondary_ip_range {
-    range_name    = "tf-gke-dev-pods-secondary-range-1"
-    ip_cidr_range = "192.168.10.0/24"
-  }
-}
 
 
 
