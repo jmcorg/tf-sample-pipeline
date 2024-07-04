@@ -75,7 +75,7 @@ jobs:
               #   echo "Violations found; not proceeding with terraform apply"
               #   exit 1
               # fi
-              # if [ $retVal -ne 0]; then
+              # if [ $retVal -nec 0]; then
               #   echo "Error during gcloud beta terraform vet; not proceeding with terraform apply"
               #   exit 1
               # fi
