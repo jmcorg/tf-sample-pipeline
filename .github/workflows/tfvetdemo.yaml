@@ -78,7 +78,6 @@ jobs:
                 echo "$terra_vet_violations"
                 exit 1
               fi
-
               echo "No terraform_vet policy violations detected; proceeding with terraform apply"
 
 
