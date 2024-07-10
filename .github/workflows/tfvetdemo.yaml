@@ -58,7 +58,7 @@ jobs:
         id: fmtval
         continue-on-error: true
         run: |
-              pwd && ls && cd vet-policy-library && ls && cd ..
+              cd vet-policy-library && ls && cd ..
               gcloud version
               terraform init
               terraform plan -out=test.tfplan
