@@ -3,10 +3,8 @@ resource "google_storage_bucket" "auto-expire" {
   location      = var.location
   project       = var.project_id
   force_destroy = true
-  labels {
-    env = "nonprod-dev"
-    app-name = "jmc-app"
-  }
+  labels                   = merge(var.labels, {  env = "nonprod-dev", app-name = "jmc-app"  })
+ 
 #   public_access_prevention = "enforced"
 #   logging {
 #     log_bucket = "jmcorg-tfstate_lz"

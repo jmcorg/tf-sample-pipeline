@@ -43,3 +43,8 @@ variable "enable_binary_authorization" {
   description = "Enable BinAuthZ Admission controller"
   default     = false
 }
+variable "labels" {
+  description = "Labels to be attached to the buckets"
+  type        = map(string)
+  default     = {}
+}
