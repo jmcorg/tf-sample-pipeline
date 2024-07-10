@@ -63,19 +63,19 @@ jobs:
               terraform init
               terraform plan -out=test.tfplan
               terraform show -json ./test.tfplan > ./tfplan.json
-              #gcloud beta terraform vet tfplan.json --policy-library=./vet-policy-library --format=json
+              gcloud beta terraform vet tfplan.json --policy-library=./vet-policy-library --format=json
 
-              terra_vet_violations=$(gcloud beta terraform vet tfplan.json --policy-library=./vet-policy-library --format=json)
+              #terra_vet_violations=$(gcloud beta terraform vet tfplan.json --policy-library=./vet-policy-library --format=json)
               retVal=$?
               if [ $retVal -eq 2 ]; then
                 # Optional: parse the terra_vet_violations variable as json and check the severity level
-                echo "$terra_vet_violations"
+                #echo "$terra_vet_violations"
                 echo "terra_vet_violations found; not proceeding with terraform apply"
                 exit 1
               fi
               if [ $retVal -ne 0 ]; then
                 echo "Error during gcloud beta terraform vet; not proceeding with terraform apply"
-                echo "$terra_vet_violations"
+                #echo "$terra_vet_violations"
                 exit 1
               fi
               echo "No terraform_vet policy violations detected; proceeding with terraform apply"
