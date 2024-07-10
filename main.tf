@@ -1,16 +1,16 @@
-resource "google_storage_bucket" "auto-expire" {
-  name          = "jmctest-no-public-access-bucket"
-  location      = var.location
-  project       = var.project_id
-  force_destroy = true
-  labels                   = merge(var.labels, {  env = "nonprod", app-name = "jmcapp"  })
+# resource "google_storage_bucket" "auto-expire" {
+#   name          = "jmctest-no-public-access-bucket"
+#   location      = var.location
+#   project       = var.project_id
+#   force_destroy = true
+#   labels                   = merge(var.labels, {  env = "nonprod", app-name = "jmcapp"  })
  
-#   public_access_prevention = "enforced"
-#   logging {
-#     log_bucket = "jmcorg-tfstate_lz"
-#     log_object_prefix = "sentinel/logs/tf-sample-pipeline"
-#   }
-}
+# #   public_access_prevention = "enforced"
+# #   logging {
+# #     log_bucket = "jmcorg-tfstate_lz"
+# #     log_object_prefix = "sentinel/logs/tf-sample-pipeline"
+# #   }
+# }
 
 # locals {
 #   cluster_type = "simple-regional"
