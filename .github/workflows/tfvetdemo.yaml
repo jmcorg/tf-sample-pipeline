@@ -4,7 +4,7 @@ name: tfvet CI
     branches: ["release","main" ] 
   # pull_request:
   #   branches: [ "release","main" ] 
-  # workflow_dispatch:
+  workflow_dispatch:
 jobs:
   # tf-ci:
   #   name: terraform analysis
